@@ -131,9 +131,14 @@ run_simulation <- function(model_type, parameters, times, initial_conditions = N
 
 # Función para crear gráficos epidémicos
 create_epidemic_plot <- function(data, model_type) {
-  print("Creando gráfico epidémico")
-  print("Datos recibidos:")
-  print(head(data))
+  numeric_columns <- c("S", "E", "I", "R")
+  for (col in numeric_columns) {
+    if (col %in% names(data)) {
+    data[[col]] <- as.numeric(data[[col]])
+    }
+  }
+  
+  data[is.na(data)] <-
   
   # Colores para cada compartimento
   colors <- c(
@@ -143,20 +148,35 @@ create_epidemic_plot <- function(data, model_type) {
     R = "#d62728"   # Rojo para Recuperados
   )
   
+  
   # Crear gráfico base
-  p <- plot_ly(data, x = ~time) %>%
-    add_trace(y = ~S, name = "Susceptibles", 
-              type = "scatter", mode = "lines",
-              line = list(color = colors["S"])) %>%
-    add_trace(y = ~E, name = "Expuestos", 
-              type = "scatter", mode = "lines",
-              line = list(color = colors["S"])) %>%
-    add_trace(y = ~I, name = "Infectados", 
-              type = "scatter", mode = "lines",
-              line = list(color = colors["I"])) %>%
-    add_trace(y = ~R, name = "Recuperados", 
-              type = "scatter", mode = "lines",
-              line = list(color = colors["R"]))
+  p <- plot_ly(data, x = ~time)
+  
+  # Agregar trazas solo si la columna correspondiente existe en los datos
+  if ("S" %in% names(data)) {
+    p <- p %>%
+      add_trace(y = ~S, name = "Susceptibles",
+                type = "scatter", mode = "lines",
+                line = list(color = colors["S"]))
+  }
+  if ("E" %in% names(data)) {
+    p <- p %>%
+      add_trace(y = ~E, name = "Expuestos",
+                type = "scatter", mode = "lines",
+                line = list(color = colors["E"]))
+  }
+  if ("I" %in% names(data)) {
+    p <- p %>%
+      add_trace(y = ~I, name = "Infectados",
+                type = "scatter", mode = "lines",
+                line = list(color = colors["I"]))
+  }
+  if ("R" %in% names(data)) {
+    p <- p %>%
+      add_trace(y = ~R, name = "Recuperados",
+                type = "scatter", mode = "lines",
+                line = list(color = colors["R"]))
+  }
   
   # Configurar diseño
   p <- p %>% layout(
@@ -167,6 +187,5 @@ create_epidemic_plot <- function(data, model_type) {
     hovermode = "x unified"
   )
   
-  print("Gráfico configurado")
   return(p)
 }
