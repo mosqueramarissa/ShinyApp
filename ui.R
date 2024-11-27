@@ -13,15 +13,16 @@ ui <- dashboardPage(
   dashboardSidebar(
     width = 300,
     sidebarMenu(
-      menuItem("Introducción", tabName = "intro", icon = icon("book")),
-      menuItem("Modelos", tabName = "models", icon = icon("chart-line"),
+      id = "sidebar_collapse",
+      menuItem("Introducción", tabName = "intro"),
+      menuItem("Modelos", tabName = "models",
                menuSubItem("Modelo SIR Determinista", tabName = "sir"),
                menuSubItem("Modelo SIR Estocástico", tabName = "sirStoch"),
                menuSubItem("Modelo SEIRS", tabName = "seirs")
       ),
-      menuItem("Parámetros", tabName = "parameters", icon = icon("sliders-h")),
-      menuItem("Comparación", tabName = "comparison", icon = icon("balance-scale")),
-      menuItem("Referencias", tabName = "references", icon = icon("bookmark"))
+      menuItem("Parámetros", tabName = "parameters"),
+      menuItem("Comparación", tabName = "comparison"),
+      menuItem("Referencias", tabName = "references")
     )
   ),
   
@@ -40,7 +41,7 @@ ui <- dashboardPage(
       
       # Tab Modelo SIR
       tabItem(tabName = "sir",
-              sirUI("sir")
+              sirUI("sir1")
       ),
       
       # Tab Modelo SIR Stochastic
@@ -50,7 +51,7 @@ ui <- dashboardPage(
       
       # Tab Modelo SEIRS
       tabItem(tabName = "seirs",
-              seirsUI("seirs")
+              seirsUI("seirs1")
       ),
       
       # Tab Parámetros
