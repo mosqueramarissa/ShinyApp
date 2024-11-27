@@ -77,7 +77,6 @@ sirStochServer <- function(id) {
     
     # Función reactiva para ejecutar simulación
     sim_results <- eventReactive(input$run_sim, {
-      browser()
       # Mostrar mensaje de progreso
       withProgress(message = 'Ejecutando simulaciones', value = 0, {
         
