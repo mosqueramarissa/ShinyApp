@@ -152,7 +152,6 @@ seirsServer <- function(id) {
   moduleServer(id, function(input, output, session) {
     # Valores reactivos que dependen del botón calcular
     results <- eventReactive(input$calculate, {
-      browser()
       # Validar inputs antes de calcular
       req(input$beta, input$sigma, input$gamma, input$omega)
       
